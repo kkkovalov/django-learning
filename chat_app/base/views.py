@@ -31,3 +31,13 @@ def createRoom(request):
         'form': form,
     }
     return render(request, 'base/room_form.html', context=context)
+
+
+def updateRoom(request, pk):
+    room = models.Room.objects.filter(pk=pk)
+    form = forms.RoomForm(initial=room)
+    context = {
+        'form': form,
+    }
+    return render(request, 'base/room_form.html', context)
+    
