@@ -34,8 +34,8 @@ def createRoom(request):
 
 
 def updateRoom(request, pk):
-    room = models.Room.objects.filter(pk=pk)
-    form = forms.RoomForm(initial=room)
+    room = models.Room.objects.get(pk=pk)
+    form = forms.RoomForm(instance=room)
     context = {
         'form': form,
     }
