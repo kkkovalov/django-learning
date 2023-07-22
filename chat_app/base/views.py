@@ -86,9 +86,11 @@ def home(request):
 def room(request, pk):
     room = models.Room.objects.get(pk=pk)
     roomMessages = room.message_set.all().order_by('-created')
+    participants = room.participants.all()
     context = {
         'room': room,
         'roomMessages': roomMessages,
+        'participants': participants,
     }
     return render(request, 'base/room.html', context=context)
 

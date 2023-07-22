@@ -33,6 +33,11 @@
   <div>
     <h3>Participants:</h3>
     <hr />
+    <ul>
+      {% for user in participants %}
+      <li>{{user.username}}</li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 
