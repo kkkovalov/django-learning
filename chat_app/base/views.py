@@ -93,11 +93,16 @@ def room(request, pk):
 @login_required(login_url='/login')
 def createRoom(request):
     form = forms.RoomForm()
+    
     if request.method == 'POST':
         form = forms.RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            newRoom = form.save(commit=False)
+            newRoom.host = request.user
+            newRoom.save()
             return redirect('home-page')
+        else:
+            messages.error(request, "AN error has occurred, please try again!")
         
     
     context ={
