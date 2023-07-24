@@ -64,7 +64,7 @@ def registerUser(request):
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    
+    room_messages = models.Message.objects.all().filter(Q(room__topic__name__icontains=q))
     rooms = models.Room.objects.filter(
         Q(topic__name__contains=q) |
         Q(name__icontains=q) |
@@ -76,6 +76,7 @@ def home(request):
         'rooms': rooms,
         'topics': topics,
         'room_count': room_count,
+        'room_messages': room_messages,
     }
     return render(request, 'base/home.html', context=context)
 
@@ -120,7 +121,7 @@ def createRoom(request):
     }
     return render(request, 'base/room_form.html', context=context)
 
-@login_required(login_url='/login')
+@decorators.login_required(login_url='/login')
 def updateRoom(request, pk):
     room = models.Room.objects.get(pk=pk)
     form = forms.RoomForm(instance=room)
@@ -139,7 +140,7 @@ def updateRoom(request, pk):
     }
     return render(request, 'base/room_form.html', context)
 
-@login_required(login_url='/login')
+@decorators.login_required(login_url='/login')
 def deleteRoom(request, pk):
     room = models.Room.objects.get(id=pk)
     
@@ -155,7 +156,7 @@ def deleteRoom(request, pk):
     }
     return render(request, 'base/delete.html', context=context)
 
-@login_required(login_url='/login')
+@decorators.login_required(login_url='/login')
 def deleteMessage(request, pk):
     message = models.Message.objects.get(id=pk)
     
