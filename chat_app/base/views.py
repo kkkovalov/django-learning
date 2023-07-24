@@ -171,3 +171,17 @@ def deleteMessage(request, pk):
         "obj":   message
     }
     return render(request, 'base/delete.html', context=context)
+
+
+def userProfile(request, pk):
+    user = models.User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    roomMessages = user.message_set.all()
+    topics = models.Topic.objects.all()
+    context = {
+    "user": user,
+    "rooms": rooms,
+    "roomMessages": roomMessages,
+    "topics": topics
+    }
+    return render(request, 'base/profile.html', context=context)
